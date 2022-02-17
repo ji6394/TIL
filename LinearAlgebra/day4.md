@@ -15,3 +15,4 @@
 - R^m 차원인 b는 A의 열의 linear combination에 해당한다.
 - A의 열은 R^m의 span에 해당한다.
 - A는 모든 행에서 pivot postiion을 갖는다.
+### 정리 5 : 만약 A가 m*n행렬이고 u와 v는 R^n차원의 벡터, c는 스칼라일때, A(u + v) = Au + Av이며 A(cu)=c(AU)이다.
