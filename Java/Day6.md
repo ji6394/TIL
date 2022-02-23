@@ -16,12 +16,12 @@ System.out.println("x/y="+(x/y));
 - -- : 1 감소
 ``` java
 int x = 10;
-System.out.println("x++="+(x++));
-// x++=11
+System.out.println("++x="+(++x));
+// ++x=11
 
 x = 20;
-System.out.prinln("++x="+(++x));
-// ++x=20
+System.out.prinln("x++="+(x++));
+// x++=20
 System.out.println(x)
 // 21
 ```
