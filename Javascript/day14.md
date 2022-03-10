@@ -65,16 +65,21 @@
   let word;
   let newword;
 
-  $input.addEventListner = (event) => {
-      newword = event.target.value;
-  }  
-  $button.addEventListner = () => {
+  const clickbutton = () => {
       if (!word){
           word = newword;
-          $word.textContent = word
+          $word.textContent = word;
           $input.value = '';
       }
+      else{
+
+      }
   }
+  const inputword = (event) => {
+      newword=event.target.value;
+  }
+  $input.addEventListener('input',inputword);
+  $button.addEventListener('click',clickbutton);
 
  </script>
 
