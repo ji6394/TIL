@@ -20,3 +20,18 @@ model = RandomForestRegressor()
 #### 랜덤포레스트의 모듈의 옵션 중 criterion 옵션을 통해 어떤 평가척도를 기준으로 훈련할 것인지를 정할 수 있음
 #### MSE(평균제곱오차) : 오차의 제곱의 평균
 #### RMSE 는 MSE에 제곱근 취한 것
+``` python
+model = RandomForestRegressor(criterion='mse')
+```
+#### fit()으로 모델이 학습되고 나면 feature_importances_ 속성(attribute)로 변수의 중요도를 파악할 수 있다
+#### 변수의 중요도 : 예측변수를 결정할 때 각 피쳐가 얼마나 중요한 역할을 하는지에 대한 척도
+#### 변수의 중요도가 낮다면 해당 피쳐를 제거하는 것이 성능 높일 수 있음
+``` python
+
+model = RandomForestRegressor(criterion='mse') # 모델에 RandomForestRegressor 대입
+model.fit(X_train,Y_train) #해당 모델을 이용하여 훈련
+model.feature_importances_
+# 각 변수의 중요도 측정
+```
+#### 각 모델 별로 예측하고 결과값 저장하기 : 각 모델 별로 다른 셋 만들고 이를 이용하기
+#### 예측할 때 사용되는 test셋은 각 train셋과 같은 피쳐 공유해야함
