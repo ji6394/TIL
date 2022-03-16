@@ -46,3 +46,16 @@ model.feature_importances_
 #### 위 정지 규칙들을 종합적으로 고려하여 최적의 조건값 설정하는 것이 하이퍼파리미터 튜닝
 #### 다양한 방법론이 존재하지만 그 중 Best 성능을 나타내는 GridSearch는 완전 탐색(Exhaustive Search) 사용
 #### Best조합을 탐색할 때 까지 시간이 오래걸림
+
+#### GridSearchCv로 하이퍼파리미터 구현하기
+``` python
+from sklearn.model_selection import GridSearchCV
+
+model = RandomForestRegressor(criterion = 'mse', random_state = 2020) ## 추출값 고정시키기
+params = {'n_estimators':[200,300,500],'max_features':[5,6,8],'min_samples_leaf':[1,3,5]}### parameter 설정하기
+greedy_CV = gridSearchCV(model,param_grid=params, cv=3,n_jobs=-1) ### cv는 교차검증, n_jobs=-1 : 컴퓨터의 모든 코어 사용
+greedy_CV.fit(X_train, Y_train)
+
+pred = greedy_CV.predict(test)
+```
+
