@@ -32,3 +32,47 @@ a = [1,2,2,3,3,3,4,4,4,5,6,6,6,6,7,8,9]
 plt.hist(a)
 plt.show() ###plt.show는 그다지 필요 없는듯
 ```
+
+#### boxplot으로 이상치 판별하기
+``` python
+import pandas as pd
+import seaborn as sns
+
+train = pd.read_csv('data/train.csv')
+
+sns.boxplot(data=train['fixed acidity'])
+```
+
+#### 이상치 제거하기
+``` python
+quantile_25 = np.quantile(train['fixed acidity'],0.25)
+quantile_75 = np.quantile(train['fixed acidity'],0.75)
+IQR = quantile_75-quantile_25
+minimum = quantile_25-1.5*IQR
+maximum = quantile_75+1.5*IQR
+train2 = train[(minimum<=train['fixed acidity'])&(train['fixed acidity']<=maximum)]
+```
+#### 수치형 데이터 정규화
+#### 트리 기반 모델(의사결정나무, 랜덤포레스트)는 대소 비교를 통해 구분하기에 숫자의 단위에 민감하지 않지만 평활함수모델(Lasso, Logistic Regression)은 숫자의 크기와 단위에 민감
+#### 수치형 데이터 정규화를 통해 어떤 모델이든 적합하게 사용 가능
+#### MinMaxScaling
+``` python
+train.describe() #데이터의 분포 파악
+sns.distplot(train['fixed acidity'])
+scaler=MinMaxSclaer()
+scaler.fit(train[['fixed acidity']]) #대괄호가 두개인 이유는 fit에는 데이터 셋이 들어가야하기 때문, 대괄호 하나는 Series
+train['Scaled fixed acidity'] = scaler.transform(train[['fixed acidity']]) #train의 fixed acidity를 새로운 칼럼에 저장
+sns.dsitplot(train['Scaled fixed acidity'])
+```
+#### MinMaxScaler()는 이상치에 민감하기에 이상치를 제거하는 것도 고려
+#### One-Hot Encoding : 문자로 된 데이터 전처리, 해당하는 것만 1, 나머지는 0으로 바꿈
+``` python
+encoder= OneHotEncoder()
+encoder.fit(train[['type']])
+onehot = encoder.transform(train[['type']])
+onehot=onehot.toarray() #onehot변수를 array로 변환
+onehot=pd.DataFrame(onehot) ##onehot array를 dataframe으로 변환
+onehot.columns=encoder.get_feature_names() #column이름 바꾸기
+onehot = pd.concat([train,onehot],axis=1)
+train = train.drop(columns=['type'])
+```
