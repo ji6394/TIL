@@ -59,7 +59,7 @@ train2 = train[(minimum<=train['fixed acidity'])&(train['fixed acidity']<=maximu
 ``` python
 train.describe() #데이터의 분포 파악
 sns.distplot(train['fixed acidity'])
-scaler=MinMaxSclaer()
+scaler=MinMaxScaler()
 scaler.fit(train[['fixed acidity']]) #대괄호가 두개인 이유는 fit에는 데이터 셋이 들어가야하기 때문, 대괄호 하나는 Series
 train['Scaled fixed acidity'] = scaler.transform(train[['fixed acidity']]) #train의 fixed acidity를 새로운 칼럼에 저장
 sns.dsitplot(train['Scaled fixed acidity'])
