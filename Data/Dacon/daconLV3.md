@@ -76,3 +76,54 @@ onehot.columns=encoder.get_feature_names() #column이름 바꾸기
 onehot = pd.concat([train,onehot],axis=1)
 train = train.drop(columns=['type'])
 ```
+
+#### RandomForest 모형으로 분류하기
+``` python
+from sklearn.ensemble import RandomForestClassifier
+
+random_classifier = RandomForestClassifier()
+
+X = train.drop(['quality'],axis=1)
+Y = train['quality']
+
+random_classifier.fit(X,Y)
+```
+#### KFold로 교차검증하기
+``` python
+from sklearn.model_selection import KFold
+
+Kf = KFold(n_shuffle = 5, shuffle = True, random_state = 0) ###n_shuffle은 [훈련,검증]의 개수, shuffle은 Fold를 나누기 전 무작위로 섞는지 여부, random_state 는 난수값
+model = RandomForestClassifier(random_state = 0)
+valid_scores = []
+test_predictions = []
+
+
+for train_idx, test_idx in kf.split(train):
+    X_tr = X.iloc[train_idx]
+    Y_tr = Y.iloc[train_idx]
+
+    X_val = X.iloc[test_idx]
+    Y_val = Y.iloc[test_idx]
+    model.fit(X_tr,Y_tr)
+    valid_prediction  = model.predict(X_val)
+    score = accuracy_score(y_val, valid_prediction)
+    valid_scores.append(score)
+
+for train_idx, test_idx in kf.split(train):
+    X_tr = X.iloc[train_idx]
+    Y_tr = Y.iloc[train_idx]
+
+    X_val = X.iloc[test_idx]
+    Y_val = Y.iloc[test_idx]
+    model.fit(X_tr,Y_tr)
+
+    test_prediction = model.predict(test.drop(['index'],axis=1))
+    test_predictions.append(test_prediction)
+test_predictions = pd.DataFrame(test_predictions)
+test_prediction = test_predictions.mode()
+test_prediction = test_prediction.values[0]
+
+sample_submission = pd.read_csv('data/sample_submission.csv')
+sample_submission['quality'] = test_prediction
+sample_submission.to_csv('data/submission_KFOLD.csv', index= False)
+```
