@@ -58,4 +58,49 @@ greedy_CV.fit(X_train, Y_train)
 
 pred = greedy_CV.predict(test)
 ```
+#### Bayesian Optimization
+#### 하이퍼 파라미터 튜닝 중 GridSearch와 RandomSearch의 경우 최적의 값을 찾아갈 수 없다는 문제
+#### Bayesian Optimization은 'Gausian Process'라는 통계학 기반 모델로 여러개의 하이퍼파라미터들에 대해 Aquisition Function을 적용했을 때 가장 큰 값이 나올 확률이 높은 지점을 찾아낸다.
+#### Bayesian Optimization을 사용하기 위해서 다음 단계가 필요하다
+1. 변경할 하이퍼 파라미터의 범위를 설정한다.
+2. Bayesian Optimization 패키지를 통해, 하이퍼 파라미터의 범위 속 값들을 랜덤하게 가져온다.
+3. 처음 n번은 랜덤하게 좌표를 꺼내 성능을 확인
+4. 이후 m번은 bayesian optimization을 통해 최적의 값을 찾는다.
+``` python
+!pip install bayesian-optimization ### Jupyter notebook에서는 !을 앞에 붙여 패키지 설치
+from bayes_opt import BayesianOptimization
+```
+#### 하이퍼파라미터 튜닝 방법 3가지 비교
+- GridSearch : 탐색할 값들을 미리 지정, 값들의 조합으로 성능의 최고점을 찾는 기법
+    - 장점 : 내가 원하는 범위를 정확하게 비교 분석 가능
+    - 단점 : 시간이 오래걸림, 성능의 최고점이 아닐 가능성, 최적화 검색(여러개들을 비교분석하여 최고를 찾는 기법), 최적화 탐색(성능이 높은 점으로 점차 이동)이 아니다.
+- Random Search : 사전에 탐색할 값들의 범위를 지정, 그 범위 속 가능한 조합을 바탕으로 최고점 찾기
+    - 장점 : Gridsearch에 비해 시간이 적게 걸림, 랜덤하게 점을 찍으므로 성능이 더 좋은 점으로 갈 가능성이 높아짐
+    - 단점 : 랜덤하게 찍는 것이 오히려 성능 낮출수도, 하이퍼파라미터의 범위가 너무 넓으면 일반화된 결과과 나오지 않음, seed를 고정하지 않으면 결과가 가변적이다, 최적화 검색이지 최적화 탐색이 아니다.
+- BayesianOptimization : 하이퍼파라미터의 범위를 지정한 후, Random하게 n번 탐색 후 m번 만큼 최적의 값 찾아냄
+    - 장점 : 최적의 값 찾을 수 있음, 상대적으로 시간이 덜 걸림
+    - 단점 : Random하게 점을 찍으므로 최적화 하는데 오래걸릴수도, 최적의 값을 찾는게 불가능할 수도, 최적화 이전에 이미 최적값을 보유할 수도 있음
+``` python
+## x에 학습할 데이터를, y에 목표변수 저장
+x = train.drop(columns=['index','quality'])
+y = train['quality']
+## 랜덤포레스트의 하이퍼 파라미터의 범위를 dictionary 형태로 지정하기
+## key는 랜덤포레스트의 hyperparameter 이름, value는 탐색할 범위
+rf_parameter_bounds = {'max_depth':(1,3),'n_estimators' : (30,100),}
+## 함수 만들기
+def rf_bo(max_depth, n_estimators):#함수의 인자는 위에서 만든 함수의 key 값들
+    rf_params = {'max_depth':int(round(max_depth)),'n_estimators' : int(round(n_estimators)),}#함수 속 인자를 통해 받아와 새롭게 하이퍼파라미터 딕셔너리 생성
+    rf = RandomForestClassifier(**rf_params) #그 딕셔너리를 바탕으로 모델 생성
+    x_train, x_valid, y_train, y_valid = train_test_split(x,y,test_size = 0.2,)#train_test_split활용하여 데이터를 train/valid로 나누기
+    rf.fit(x_train,y_train) #모델 학습
+    score = accuracy_score(y_valid,rf.predict(x_valild)) #모델 성능 확인
+    return score #모델의 점수 반환
+BO_rf = BayesianOptimization(f=rf_bo, pbounds = rf_parameter_bounds,random_state=0) #pbounds는 하이퍼파라미터의 최소~최대값
+BO_rf.maximize(init_points=5,n_iter=5) #Bayesian Optimization을 실행, init_points는 몇 번 탐색할지, n_iter는 최적 값을 몇 번 찾아갈지
+max_params = BO_rf.max['params']
+max_params['max_depth']=int(max_params['max_depth'])
+max_params['n_estimators']=int(max_params['n_estimators'])
+print(max_params)
 
+BO_tuend_rf = RandomForestClassifier(**max_params) #결과 저장
+```
