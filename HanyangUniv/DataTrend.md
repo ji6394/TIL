@@ -13,6 +13,7 @@
 ``` html
 <html>
 <head>
+<title>첫 타이틀</title>
 </head>
 <body>
 <h1 align = "center">html 플립러닝 수업</h1>
@@ -32,3 +33,25 @@
 </body>
 </html>
 ```
+#### <!DOCTYPE html> <!~~ 은 주석문에 해당
+#### <hr> : 선 긋기
+#### 리스트 종류
+- 순서 있는 리스트(ordered list) : <ol></ol>
+- 순서 없는 리스트(unordered list) : <ul></ul>
+- 정의형 리스트(definition list) : <dl></dl>
+#### 리스트는 type, start 설정 가능
+``` html
+<ol type = '1'|'A'|'a'|'I'|'i'
+    start = 'value'>
+    <li>아이템</li>
+</ol>
+```
+#### type는 마커의 종류, start는 마커의 시작점 설정
+#### 리스트는 중첩도 가능
+``` html
+<dl>
+    <dt><strong></strong> <!dt는 제목,strong은 진하게 표시>
+    <dd> <!dd는 설명, 태그 하나로 구성>
+</dl>
+```
+#### <br>태그를 쓰기 위해서는 &lt;br&gt;
