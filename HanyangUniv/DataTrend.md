@@ -55,3 +55,23 @@
 </dl>
 ```
 #### <br>태그를 쓰기 위해서는 &lt;br&gt;
+
+#### 이미지, 링크 삽입하기
+``` html
+<html>
+<head>
+<title>이미지와링크</title>
+<body>
+<h1>이미지 삽입하기</h1>
+<img src="한양.png"> ###이미지는 같은 디렉토리에 있어야 함
+<h3>인문소프트웨어융합전공</h3>
+<h1>링크태그 만들기</h1>
+<a href="http://hycore.hanyang.ac.kr">미래인문학교육인증센터</a>
+<br>
+<br>
+<br>
+<h1>이미지링크</h1>
+<a href="http://hycore.hanyang.ac.kr"><img src="한양.png" width = "100" height = "100"></a>
+</body>
+</head>
+</html>
