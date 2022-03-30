@@ -37,7 +37,7 @@ for champ in champ_list :
         temp.append(static_champ_data[champ]['info'][info])
     champ_data.append(temp)
 
-my_col = ['id'] +['primary_class', 'secondary_class', 'info_attack', 'info_defense', 'info_magic', 'info_difficulty']+ champ_stat #칼럼을 만드는 작업. 리스트로 넣어야 데이터프레임의 칼럼으로 넣을 수 있는듯!
+my_col = ['id'] +['primary_class', 'secondary_class', 'info_attack', 'info_defense', 'info_magic', 'info_difficulty']+ champ_stat #칼럼을 만드는 작업. 리스트로 넣어야 데이터프레임의 칼럼으로 넣을 수 있는듯!, 순서 맞춰서 써야함!!
 
 champ_data = pd.DataFrame(champ_data, index = champ_list, columns = my_col)
 
@@ -55,7 +55,7 @@ champ_as = champ_data.sort_values('attackspeed',ascending=False)
 champ_hp_diff = champ_data.sort_values(['hp','info_difficulty'],ascending = [False, True]) #여러 열을 기준으로 정렬할 때에는 리스트 사용
 
 #데이터프레임 조건 사용하여 인덱싱
-tank_gt_600 = champ_data[champ_data['hp']>600 & champ_data['primary_class']=='Tank']
+tank_gt_600 = champ_data[(champ_data['hp']>600) & (champ_data['primary_class']=='Tank')]
 
 deal_tang = ['Fighter','Tank']
 class_dealTang = champ_data[champ_data['primary_class'].isin(deal_tang)] #isin 사용하여 인덱싱
@@ -85,7 +85,7 @@ champ_data.groupby('primary_class')['hp','armor','attackdamage','attackspeed'].a
 short = ['Tank','Fighter','Assasin']
 shortchamp = champ_data.query('primary_class == @short or secondary_class == @short') #쿼리를 사용할 때 외부 객체를 언급할때는 @ 사용하면 됨
 
-short_champ_sorted = shortchamp.sort_values(['difficulty','hp','DPS'], ascending = [True,False,False])
+short_champ_sorted = shortchamp.sort_values(['info_difficulty','hp','DPS'], ascending = [True,False,False])
 
 diff_zero = short_champ_sorted[short_champ_sorted['difficulty']==0].index #index는 해당 행의 숫자 리턴
 
