@@ -75,3 +75,5 @@
 </body>
 </head>
 </html>
+```
+#### head태그에 <meta charset="UTF-8"> 넣어서 utf-8로 유형 변경 가능
