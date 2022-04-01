@@ -112,4 +112,44 @@ x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.3,random_sta
 
 print(x_train.shape)
 print(x_test.shape)
+
+#비선형회귀분석 모형 - sklearn 사용
+# sklearn에서 필요한 모듈 가져오기
+from sklearn.linear_model import LinearRegression #선형회귀분석
+from sklearn.preprocessing import PolynomailFeatures #다항식 변환
+
+poly = PolynomialFeatures(degree=2)
+x_train_poly = poly.fit_transform(x_train)
+
+#train data로 모형 학습
+pr=LinearRegression()
+pr.fit(x_train_poly,y_train)
+
+#학습을 마친 모형에 test data를 적용해 결정계수 구하기
+x_test_poly = poly.fit_transform(x_test)
+r_square = pr.score(x_test_poly,y_test)
+print(r_square)
+
+#train data의 산점도와 test data로 예측한 회귀선을 그래프로 출력
+y_hat_test = pr.predict(x_test_poly)
+
+fig=plt.figure(figsize=(10,5))
+ax = fig.add_subplot(1,1,1)
+ax.plot(x_train,y_train,'o',label='Train Data')
+ax.plot(x_test,y_hat_test,'r+',label='Predicted Value')
+ax.legend(loc='best')
+plt.xlabel('weight')
+plt.ylabel('mpg')
+plt.show()
+plt.close()
+
+# 모형에 전체 x데이터를 입력하여 예측한 값 y_hat을 실제 값 y와 비교
+x_poly = poly.fit_transform(x)
+y_hat = pr.predict(x_poly)
+
+plt.figure(figsize=(10,5))
+ax1 = sns.kdeplot(y,label='y')
+ax2= sns.kdeplot(y_hat, label='y_hat',ax=ax1)
+plt.legend()
+plt.show()
 ```
