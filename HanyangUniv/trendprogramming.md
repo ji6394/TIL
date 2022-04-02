@@ -86,9 +86,14 @@ state = data.frame(state.x77)
 names(state) #변수 이름 출력
 colMeans(state) #모든 열의 평균값
 summary(state$Income)
+plot(state$HS.Grad, state$Income)
+x1 = lm(state$HS.Grad~state$Income) #lm(x:독립변수~y:종속변수)
+which.max(state$Income) #해당 열에서 가장 높은 행의 인덱스 리턴
+
 ```
 #### 트렌드프로그래밍 3주차
 ``` R 
+order(state$Population) #해당 열에서 크기에 따른 순서 인덱스 리턴
 #filter 특정 조건에 맞는 행 추출
 mtcars %>%
   filter(hp>150)
@@ -138,7 +143,91 @@ Oranmean = Orange %>%
   summarise(age평균=mean(circumference))
 Oranmean
 ```
+## 트렌드프로그래밍 4주차
+``` R
+#원하는 열 추출
+subset(iris, select=c(Sepal.Length, sepal.Length))
+#원하는 행 추출
+subset(iris, Species=='versicolor')
+#조건에 맞는 값만 출력하기
+subset(iris, Petal.Width>2 |Petal.Length>6, select=c(Petal.Length, Petal.Width))
 
+#특정 열 기준 오름차순 정렬
+mtcars %>% arrange(mpg,cyl)
+mtcars %>% arrange(desc(mpg))
 
+#데이터 합치기 merge
+a = data.frame(id=c(1,2,3),math1=c(80,75,90))
+b = data.frame(id=c(1,2,3),math2=c(50,30,90))
+merge(a,b,by='id')
+# 데이터 합치기 cbind, rbind
+cbind(a,b) #merge와 달리 그냥 다 붙여버림
+rbind(a,b) #동일한 열이 있을 경우 불가능
 
+#데이터 분리하기 split
+split(iris, iris$Species) #Species를 기준으로 iris 분리
 
+#히스토그램 제목, x축y축 이름 등 설정하기
+hist(cars$dist, main = '자동차의 제동거리', xlab='제동거리', ylab = '빈도수', border = 'blue',col='gold',breaks=10)
+
+table(iris$Species) #빈도값 나타내줌
+
+#막대그래프 그리기
+barplot(a,main='Species of iris', xlab='species', ylab = 'frequency', col='tan')
+
+#박스 그림 그리기
+boxplot(iris1)
+boxplot(Sepal.Length ~ Species, data = iris, main = 'Length Result', col = c('red','blue','purple'))
+
+x=c(1:10)
+y=c(5:15)
+boxplot(x,y,col='oldlace', names=c('x','y'))
+boxplot(circumference~Tree, data = Orange, main = '나무의 둘레', col='cyan')
+
+#그래프 그릴 때 범위 설정해주기
+x=1:10
+y1=log(x)
+y2=sqrt(x)
+plot(x,y1,ylim=c(0,4),type='l',col='red')
+lines(x,y2,lty=5, col='blue')
+
+#axis로 축 설정 변경하기
+x = c(100,200,180,150,160)
+y=c(220,300,280,190,240)
+z=c(310,330,320,290,220)
+plot(x, type='o',col='red',ylim=c(0,400),axes=F, ann=F) 
+axis(1,at=1:5, lab=c('A','B','C','D','E'))
+axis(2,ylim = c(0,400))
+#plot으로 그래프 그린다음 lines로 그래프에 추가 가능
+lines(y, type='b', pch=17, col='green',lty=5)
+title(main='book page', col.main='purple')
+title(xlab='book',ylab='page',col.lab='grey')
+# 주석 만들기(cex는 글자크기, pch와 lty는 점모양과 선모양)
+legend(4,500,c('sci','Eng','math'), cex=0.5, col=c('red','green','blue'), pch=21, lty=1)
+
+#누적도수분포표 만들기
+class = margin.table(Titanic, margin=1) #1열의 데이터로 누적도수분포표 생성
+pie(class)
+pie(class,labels=c(325,285,706,885), main = 'Titanic passengers')
+#text로 pie차트에 문구 새겨놓기
+text(0.4,0.2,"1등석")
+text(0.2,0.6,'2등석')
+text(-0.5,0.1,'3등석')
+text(0.1,-0.3,'crew')
+
+barplot(class, horiz=T, xlab='FerryClass', ylab='Frequency', main = 'PassengersByClass', col='blue') #가로 막대그래프그리기
+
+#특정 열에 대한 행의 누적도수분포표 그리기
+survive.by.class = margin.table(Titanic, margin = c(1,4))
+
+barplot(survive.by.class,beside=T, col=c('black','green'), legend=T, names.arg = c('1등석','2등석','3등석','선원'))
+#beside는 각 변수를 독립적으로 그려줌, names.arg또는 names로 x축 변량에 이름 넣을 수 있음
+
+#원형그래프그리기
+symbols(state$HS.Grad, state$Income, circles=state$Population, inches=0.7, fg='black', bg='salmon', lwd=1, xlab='고졸비율',ylab='1인당소득',main='고졸비율과소득')
+
+#par mfrow로 화면분활하기
+plot(1:20)
+plot(20:1)
+par(mfrow=c(1,3))
+```
