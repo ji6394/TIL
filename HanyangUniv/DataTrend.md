@@ -77,3 +77,32 @@
 </html>
 ```
 #### head태그에 <meta charset="UTF-8"> 넣어서 utf-8로 유형 변경 가능
+
+#### 테이블과 폼 만들기
+``` html
+<html>
+    <head>
+        <title>3.테이블과폼데모</title>
+    </head>
+    <body>
+        <h1>테이블만들기</h1>
+        <table border="1">
+            <tr><td>학과</td><td>학년</td><td>이름</td></tr>
+        </table>
+        <br>
+        <br>
+        <table border="2">
+            <tr><td><img src="한양.png" width=100 height=100></td><td><img src="인문과학대학.jpg" width=100 height = 100></td><td><img src="인문과학대학.jpg" width=100 height = 100></td></tr>
+            <tr><td><img src="한양.png" width=100 height=100></td><td><img src="인문과학대학.jpg" width=100 height = 100></td><td><img src="인문과학대학.jpg" width=100 height = 100></td></tr>
+        </table>
+        <br>
+        <br>
+        <h1>폼만들기</h1>
+        <form method="get" action = "form연습2.html">
+            <label>아이디:<input type="text" value="디폴트값"></label>
+            <label>패스워드:<input type="password" value="pss"></label>
+            <input type = "submit" value="로그인값">
+        </form>
+    </body>
+</html>
+```
