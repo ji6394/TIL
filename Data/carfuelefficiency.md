@@ -157,3 +157,24 @@ plt.show()
 #### 단순회귀분석 : 독립변수 x와 종속변수 y간의 선형관계
 #### 다항회귀분석 : 독립변수 x와 종속변수 y간의 비선형관계
 #### 다중회귀분석 : 다수의 독립변수와 종속변수 y간의 선형관계
+
+## 분류 알고리즘 : 훈련 데이터에 목표 변수(0 또는 1)을 입력한 후 예측하려는 대상의 속성을 입력받았을 때 목표 변수의 값을 분류하여 예측
+#### 고객 분류, 질병 진단, 스팸메일 필터링, 음성인식 등 목표 변수가 범주형 변수에 해당할 때 사용됨
+#### KNN, SVM, Decision Tree, Logistic Regression 등 사용됨
+``` python
+import pandas as pd
+import seaborn as sns
+
+#데이터 준비
+# load_dataset 이용하여 데이터프레임으로 변환
+df = sns.load_dataset('titanic')
+pd.set_option('display.max_columns',15)
+df.drop(['deck','embark_town'],axis=1, inplace=True)
+df.columns.values()
+df.dropna(subset=['age'],axis=0, how='any') #how='any' : 데이터 중 하나라도 na이면 드랍, 'all'은 모두 na여야 드랍
+
+most_freq = df['embarked'].value_counts(dropna=True).idxmax() #idxmax는 최대값 출력
+
+df['embarked'].fillna(most_freq, inplace=True
+)
+```
