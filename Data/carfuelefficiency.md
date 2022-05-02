@@ -177,4 +177,36 @@ most_freq = df['embarked'].value_counts(dropna=True).idxmax() #idxmax는 최대�
 
 df['embarked'].fillna(most_freq, inplace=True
 )
+ndf = df[['survived','pclass','sex','age','sibsp','parch','embarked']]
+
+onehot_sex = pd.get_dummies(df['sex'])
+df = pd.concat([df, onehot_sex], axis=1)
+onehot_embarked = pd.get_dummies(df['embarked'], prefix='town')
+df = pd.concat([df, onehot_embarked], axis=1)
+df.drop(['sex','embarked'], inplace=True, axis=1)
+
+x = df[['pclass','sex','age','sibsp','parch','embarked']]
+y = df['survived']
+
+from sklearn import preprocessing
+x = preprocessing.StandardScaler().fit(x).transform(x)
+
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x,y,train_size=0.3, random_state=10)
+
+from sklearn.neighbors import KNeighborsClassifier
+
+knn = KNeighborsClassifier(n_neighbors=5)
+
+knn.fit(x_train, y_train)
+y_hat = knn.predict(x_test)
+
+print(y_hat[0:10])
+print(y_test.values[0:10])
+
+from sklearn import metrics
+knn_matrix = metrics.confusion_matrix(y_test,y_hat)
+print(knn_matrix)
+knn_report = metrics.classification_report(y_test,y_hat)
+print(knn_report)
 ```
