@@ -1,0 +1,72 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+</head>
+<body>
+ <div><span id = 'order'>1</span>번째 참가자</div>
+ <div>제시어: <span id = 'word'></span></div>
+ <input type="text">
+ <button>입력</button>
+ <script>
+  const people = parseInt(prompt("몇 명이 참가하나요?"),10);
+  if (people) {
+
+  const $button = document.querySelector('button');
+  const $input = document.querySelector('input');
+  const $word = document.querySelector('#word');
+  const $order = document.querySelector('#order');
+
+
+  let word;
+  let newword;
+
+  const clickbutton = () => {
+      if (newword.length != 3){
+          alert("잘못된 입력입니다.")
+      }
+      else {
+      if (!word){
+          word = newword;
+          $word.textContent = word;
+          $input.value = '';
+          const order = parseInt($order.textContent);
+          if (order+1 > people){
+            $order.textContent = 1;
+          } else {
+            $order.textContent = order+1;
+          }
+          $input.focus();
+
+      } else{
+        if (word[word.length-1] === newword[0]){
+            word = newword;
+            $word.textContent = word;
+            $input.value = '';
+            const order = parseInt($order.textContent);
+          if (order+1 > people){
+            $order.textContent = 1;
+          } else {
+            $order.textContent = order+1;
+          }
+        }
+        else {
+            alert('올바르지 않은 단어입니다');
+        }
+        $input.focus();
+
+      }
+  }
+}
+  const inputword = (event) => {
+      newword=event.target.value;
+  }
+  $input.addEventListener('input',inputword);
+  $button.addEventListener('click',clickbutton);
+  }
+ </script>
+
+</body>
+</html>
