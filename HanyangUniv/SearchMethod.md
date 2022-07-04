@@ -1,3 +1,5 @@
+# 근로시간의 유동성이 근로자에게 미치는 영향
+# 근로시간의 유동성이 근로자의 신체적 건강, 정신적 건강, 근무 만족도에 미치는 영향을 chi-square, 교차검정, t-test를 이용하여 분석 
 ``` R
 install.packages('readxl')
 library(readxl)
