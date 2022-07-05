@@ -21,3 +21,19 @@ pd.to_numeric(df_last['분양가격(㎡)'])
 df_last['분양가격']=pd.to_numeric(df_last['분양가격(㎡)'], errors='coerce')
 df_last['분양가격'].mean()
 df_last['평당분양가격']=df_last['분양가격']*3.3 #평당 가격으로 맞추기
+
+#내용 수정하기
+df_last['전용면적']=df_last['규모구분'].str.replace('전용면적','')
+df_last['전용면적']=df_last['전용면적'].str.replace('초과','~')
+df_last['전용면적']=df_last['전용면적'].str.replace('이하','')
+df_last['전용면적']=df_last['전용면적'].str.replace(' ','').str.strip() #공백 없애기
+
+#칼럼 제거
+df_last.drop(['규모구분','분양가격(㎡)'],axis=1,inplace=True)
+
+#groupby
+dataframe.groupby(['인덱스로 사용할 칼럼'])['결과출력할 칼럼'].mean()
+
+df_last.groupby(['지역명'])['평당분양가격'].mean()
+df_last.groupby(['지역명','전용면적'])['평당분양가격'].mean().unstack() #뒤의 칼럼을 데이터프레임의 열로 변경
+df_last.groupby(['지역명','전용면적'])['평당분양가격'].mean().unstack().round().transpose()#행과 열 변경
