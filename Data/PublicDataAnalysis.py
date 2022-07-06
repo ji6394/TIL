@@ -32,7 +32,7 @@ df_last['전용면적']=df_last['전용면적'].str.replace(' ','').str.strip() 
 df_last.drop(['규모구분','분양가격(㎡)'],axis=1,inplace=True)
 
 #groupby
-dataframe.groupby(['인덱스로 사용할 칼럼'])['결과출력할 칼럼'].mean()
+df_last.groupby(['인덱스로 사용할 칼럼'])['결과출력할 칼럼'].mean()
 
 df_last.groupby(['지역명'])['평당분양가격'].mean()
 df_last.groupby(['지역명','전용면적'])['평당분양가격'].mean().unstack() #뒤의 칼럼을 데이터프레임의 열로 변경
