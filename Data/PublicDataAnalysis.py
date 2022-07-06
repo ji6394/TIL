@@ -37,3 +37,13 @@ dataframe.groupby(['인덱스로 사용할 칼럼'])['결과출력할 칼럼'].m
 df_last.groupby(['지역명'])['평당분양가격'].mean()
 df_last.groupby(['지역명','전용면적'])['평당분양가격'].mean().unstack() #뒤의 칼럼을 데이터프레임의 열로 변경
 df_last.groupby(['지역명','전용면적'])['평당분양가격'].mean().unstack().round().transpose()#행과 열 변경
+
+#pivot table
+pd.pivot_table(df_last, index=['지역명'], values=['평당분양가격'], aggfunc='mean')
+pd.pivot_table(df_last, index=['전용면적'], columns=['지역명'], values=['평당분양가격'], aggfunc='mean')
+
+#데이터 시각화
+import matplotlib.pyplot as plt
+plt.rc('font', family='Malgun Gothic')
+g=df_last.groupby(['지역명'])['평당분양가격'].mean().sort_values(ascending=False)
+g.plot.bar(rot=0, figsize=(10,3))
