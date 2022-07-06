@@ -94,3 +94,36 @@ def solution(num):
     else:
         answer='Odd'
     return answer
+
+#정수를 저장한 배열, arr 에서 가장 작은 수를 제거한 배열을 리턴하는 함수, solution을 완성해주세요. 단, 리턴하려는 배열이 빈 배열인 경우엔 배열에 -1을 채워 리턴하세요. 예를들어 arr이 [4,3,2,1]인 경우는 [4,3,2]를 리턴 하고, [10]면 [-1]을 리턴 합니다.
+def solution(arr):
+    if len(arr)>1:
+        a = min(arr)
+        arr.remove(a)
+        return arr
+    else:
+        return [-1]
+
+#임의의 양의 정수 n에 대해, n이 어떤 양의 정수 x의 제곱인지 아닌지 판단하려 합니다.
+#n이 양의 정수 x의 제곱이라면 x+1의 제곱을 리턴하고, n이 양의 정수 x의 제곱이 아니라면 -1을 리턴하는 함수를 완성하세요.
+def solution(n):
+    a = n**(1/2)
+    if float.is_integer(a):
+        return (a+1)**2
+    else:
+        return -1
+#함수 solution은 정수 n을 매개변수로 입력받습니다. n의 각 자릿수를 큰것부터 작은 순으로 정렬한 새로운 정수를 리턴해주세요. 예를들어 n이 118372면 873211을 리턴하면 됩니다.
+def solution(n):
+    a=str(n)
+    b=list(map(int,a))
+    b.sort(reverse=True)
+    c=0
+    for i in range(len(b)):
+        c=c+b[i]*10**(len(b)-1-i)
+    return c
+#자연수 n을 뒤집어 각 자리 숫자를 원소로 가지는 배열 형태로 리턴해주세요. 예를들어 n이 12345이면 [5,4,3,2,1]을 리턴합니다.
+def solution(n):
+    a=list(map(int,str(n)))
+    a.reverse()
+    return a
+    
