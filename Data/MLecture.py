@@ -68,3 +68,61 @@ dt_clf = DecisionTreeClassifier()
 dt_clf.fit(x_train, y_train)
 pred = dt_clf.predict(x_test)
 print('예측정확도 : {0:.4f}'.format(accuracy_score(y_test,pred)))
+
+#교차검증 : 학습 데이터 셋과 테스트 데이터 셋을 구분한 후 학습 데이터 셋을 다시 나누어 테스트 데이터를 이용하기 전 일차적으로 검증하는 방식
+#k-fold 교차검증 : 데이터 셋을 5개로 구분하고 하나씩 번갈아가며 검증평가 후 5개의 검증 결과를 평균치를 냄
+# 일반 K 폴드와 Stratified K 폴드로 구분됨. Stratified K 폴드의 경우 불균형한 분포도를 가진 레이블 데이터 집합을 학습데이터와 검증 데이터의 레이블 분포도가 유사하도록 겁증 데이터 추출하는 방식.
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import KFold
+import numpy as np
+
+iris = load_iris()
+features = iris.data
+label = iris.target
+dt_clf = DecisionTreeClassifier(random_state=156)
+
+kfold = KFold(n_splits=5)
+cv_accuracy=[]
+
+n_iter=0
+for train_index, test_index in kfold.split(features):
+    x_train, x_test = features[train_index], features[test_index]
+    y_train, y_test = label[train_index], label[test_index]
+
+    dt_clf.fit(x_train, y_train)
+    pred = dt_clf.predict(x_test)
+    n_iter += 1
+
+    accuracy = np.round(accuracy_score(y_test, pred),4)
+    train_size = x_train.shape[0]
+    test_size = x_test.shape[0]
+
+    print('\n#{0} 교차 검증 정확도 :{1}, 학습 데이터 크기 : {2}, 검증 데이터 크기: {3}'.format(n_iter, accuracy, train_size, test_size))
+    print('#{0} 검증 세트 인덱스:{1}'.format(n_iter, test_index))
+
+    cv_accuracy.append(accuracy)
+
+print(np.mean(cv_accuracy))
+
+#하지만 이런 방식은 데이터를 나누는데에 있어서 불균형을 야기할 수 잇음
+#Stratified K-Fold
+from sklearn.model_selection import StratifiedKFold
+
+skf = StratifiedKFold(n_splits=3)
+n_iter=0
+dt_clf = DecisionTreeClassifier(random_state=156)
+cv_accuracy=[]
+
+for train_index, test_index in skf.split(features, label):
+    x_train, x_test = features[train_index], features[test_index]
+    y_train, y_test = label[train_index], label[test_index]
+
+    dt_clf.fit(x_train, y_train)
+    pred = dt_clf.predict(x_test)
+
+    n_iter +=1
+    accuracy = np.round(accuracy_score(y_test, pred),4)
+    cv_accuracy.append(accuracy)
+print(np.mean(cv_accuracy))
