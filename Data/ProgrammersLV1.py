@@ -126,4 +126,21 @@ def solution(n):
     a=list(map(int,str(n)))
     a.reverse()
     return a
-    
+#자연수 N이 주어지면, N의 각 자릿수의 합을 구해서 return 하는 solution 함수를 만들어 주세요.
+#예를들어 N = 123이면 1 + 2 + 3 = 6을 return 하면 됩니다.
+def solution(n):
+    a = list(map(int,str(n)))
+    answer = sum(a)
+    return answer
+#문자열 s는 한 개 이상의 단어로 구성되어 있습니다. 각 단어는 하나 이상의 공백문자로 구분되어 있습니다. 각 단어의 짝수번째 알파벳은 대문자로, 홀수번째 알파벳은 소문자로 바꾼 문자열을 리턴하는 함수, solution을 완성하세요.
+def solution(s):
+    answer = ''
+    new_list = s.split(' ')
+    for i in new_list:
+        for j in range(len(i)):
+            if j % 2 == 0:
+                answer += i[j].upper()
+            else:
+                answer += i[j].lower()
+        answer+= ' '
+    return answer[0:-1]
