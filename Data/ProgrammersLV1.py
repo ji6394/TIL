@@ -160,3 +160,44 @@ def solution(s, n):
         elif s[i].islower():
             s[i]=chr((ord(s[i])-ord('a')+n)%26+ord('a'))
     return ''.join(s)
+#문자열 s를 숫자로 변환한 결과를 반환하는 함수, solution을 완성하세요.
+def solution(s):
+    if s[0]=='-':
+        s=-int(s[1:])
+    else:
+        s=int(s)
+    return s
+#길이가 n이고, "수박수박수박수...."와 같은 패턴을 유지하는 문자열을 리턴하는 함수, solution을 완성하세요. 예를들어 n이 4이면 "수박수박"을 리턴하고 3이라면 "수박수"를 리턴하면 됩니다.
+def solution(n):
+    a=''
+    for i in range(n):
+        if i %2==0:
+            a+='수'
+        else:
+            a+='박'
+    return a
+#1부터 입력받은 숫자 n 사이에 있는 소수의 개수를 반환하는 함수, solution을 만들어 보세요.
+
+#소수는 1과 자기 자신으로만 나누어지는 수를 의미합니다.
+#(1은 소수가 아닙니다.)
+def solution(n):
+    a=[2]
+    for i in range(3,n+1):
+        b=[]
+        for j in range(1,i+1):
+            if i%j ==0:
+                b.append(j)
+        if b == [1,i]:
+            a.append(i)            
+    return len(a)
+# 위와 같은 방식은 시간이 너무 오래걸림
+#에라토스테네스의 체 사용!
+def solution(n):
+    a = [0]*(n+1)
+    for i in range(2,len(a)):
+        for j in range(2,len(a)):
+            idx = i*j
+            if idx>n:
+                break
+            a[idx]=1
+    return a[2:].count(0)
