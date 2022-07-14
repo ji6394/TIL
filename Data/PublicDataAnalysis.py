@@ -47,3 +47,9 @@ import matplotlib.pyplot as plt
 plt.rc('font', family='Malgun Gothic')
 g=df_last.groupby(['지역명'])['평당분양가격'].mean().sort_values(ascending=False)
 g.plot.bar(rot=0, figsize=(10,3))
+
+#seaborn
+sns.barplot(data=df_last, x='지역명',y='평당분양가격')
+plt.figure(figsize=(15,3))
+sns.lineplot(data=df_last, x='연도',y='평당분양가격',hue='지역명')
+sns.catplot(data=df_last, x='연도',y='평당분양가격',kind='bar',col='지역명',col_wrap=4)

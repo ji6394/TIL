@@ -126,3 +126,44 @@ for train_index, test_index in skf.split(features, label):
     accuracy = np.round(accuracy_score(y_test, pred),4)
     cv_accuracy.append(accuracy)
 print(np.mean(cv_accuracy))
+
+#cross_val_score() : stratified 교차검증을 편리하게. 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.datasets import load_iris
+import numpy as np
+
+iris_data = load_iris()
+dt_clf = DecisionTreeClassifier(random_state=156)
+
+data = iris_data.data
+label = iris_data.target
+
+scores = cross_val_score(dt_clf, data, label, scoring='accuracy', cv=3)
+
+#GridSearchCV : 최적 하이퍼 파라미터 도출
+from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.metrics import accuracy_score
+
+iris = load_iris()
+x_train, x_test, y_train, y_test = train_test_split(iris_data.data, iris_data.target, test_size=0.2, random_state=121)
+dtree = DecisionTreeClassifier()
+parameters = {'max_depth':[1,2,3], 'min_samples_split':[2,3]}
+
+import pandas as pd
+
+grid_dtree = GridSearchCV(dtree, param_grid=parameters, cv=3, refit=True, return_test_score=True)
+
+grid_dtree.fit(x_train, y_train)
+
+scores_df = pd.DataFrame(grid_dtree.cv_results_)
+scores_df[['params','mean_test_score','rank_test_score','split0_test_score','split1_test_score','split2_test_score']]
+
+grid_dtree.cv_results_
+grid_dtree.best_params_
+grid_dtree.best_score_
+
+pred = grid_dtree.predict(x_test)
+accuracy_score(y_test, pred)
