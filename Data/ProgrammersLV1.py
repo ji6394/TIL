@@ -240,4 +240,28 @@ import numpy as np
 def solution(strings, n):
     strings.sort()
     return sorted(strings, key=lambda x:x[n])
-    
+#두 정수 a, b가 주어졌을 때 a와 b 사이에 속한 모든 정수의 합을 리턴하는 함수, solution을 완성하세요.
+#예를 들어 a = 3, b = 5인 경우, 3 + 4 + 5 = 12이므로 12를 리턴합니다.
+
+def solution(a, b):
+    answer=0
+    if b>a:
+        for i in range(a,b+1):
+            answer +=i
+    elif a>b:
+        for i in range(b,a+1):
+            answer +=i
+    else:
+        answer = a
+    return answer
+#array의 각 element 중 divisor로 나누어 떨어지는 값을 오름차순으로 정렬한 배열을 반환하는 함수, solution을 작성해주세요.
+#divisor로 나누어 떨어지는 element가 하나도 없다면 배열에 -1을 담아 반환하세요.
+def solution(arr, divisor):
+    answer = []
+    for i in arr:
+        if i % divisor ==0:
+            answer.append(i)
+    if answer==[]:
+        answer.append(-1)
+    answer.sort()
+    return answer
