@@ -167,3 +167,69 @@ grid_dtree.best_score_
 
 pred = grid_dtree.predict(x_test)
 accuracy_score(y_test, pred)
+
+
+# 데이터 전처리(Preprocessing)
+# 데이터 인코딩 - 레이블 인코딩, 원핫인코딩
+# 레이블 인코딩
+from sklearn.preprocessing import LabelEncoder
+
+items =['TV','냉장고','전자렌지','컴퓨터','선풍기','선풍기','믹서','믹서']
+encoder = LabelEncoder()
+encoder.fit(items)
+labels = encoder.transform(items)
+print('인코딩 변환값:',labels)
+print('인코딩 클래스 :',encoder.classes_)
+print('디코딩 원본 값:',encoder.inverse_transform([4, 5, 2, 0, 1, 1, 3, 3]))
+
+#원 핫 인코딩
+from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+
+items =['TV','냉장고','전자렌지','컴퓨터','선풍기','선풍기','믹서','믹서']
+items = np.array(items).reshape(-1,1)
+oh_encoder = OneHotEncoder()
+oh_encoder.fit(items)
+oh_labels = oh_encoder.transform(items)
+
+print('원핫인코딩 데이터')
+print(oh_labels.toarray())
+
+print('원핫 인코딩 데이터 차원')
+print(oh_labels.shape)
+
+#pd.get_dummies : 원핫 인코딩 실현
+import pandas as pd
+df = pd.DataFrame({'item':['Tv','냉장고','전자렌지','컴퓨터','선풍기','선풍기','믹서','믹서']})
+pd.get_dummies(df)
+
+# 피처 스케일링
+# 표준화 : 평균 0, 표준편차 1인 정규분포로 변환
+from sklearn.datasets import load_iris
+import pandas as pd
+
+iris = load_iris()
+iris_data = iris.data
+iris_df = pd.DataFrame(data=iris_data, columns=iris.feature_names)
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scaler.fit(iris_df)
+iris_scaled = scaler.transform(iris_df)
+iris_df_scaled = pd.DataFrame(data = iris_scaled, columns = iris.feature_names)
+
+# 정규화 : 0과 1사이의 값으로 변환
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+scaler.fit(iris_df)
+iris_scaled = scaler.transform(iris_df)
+iris_scaled_df = pd.DataFrame(data = iris_scaled, columns = iris_df.feature_names)
+
+#정규화할 시 학습 데이터와 테스트 데이터 세트 구분하기(테스트 데이터 세트를 fit하지 않도록 주의)
+
+train_array = np.arange(0,11).reshape(-1,1)
+test_array = np.arange(0,6).reshape(-1,1)
+
+scaler = MinMaxScaler()
+scaler.fit(train_array)
+train_scaled = scaler.transform(train_array)
+test_scaled = scaler.transform(test_array)
