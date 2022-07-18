@@ -279,4 +279,42 @@ def solution(arr):
             continue
         answer.append(i)
     return answer
-        
+# 다트게임
+import re
+def solution(dartResult):
+    p = re.compile('[0-9]*[A-Z]\\*?\\#?')
+    result = p.findall(dartResult)
+    answer=[]
+    for i in result:
+        if i[-1]=='*':
+            a = int(i[:-2])
+            if i[-2]=='S':
+                a = a
+            elif i[-2]=='D':
+                a = a**2
+            elif i[-2]=='T':
+                a = a**3
+            a = a*2
+            if len(answer)!=0:
+                answer[-1]=answer[-1]*2
+            answer.append(a)
+        elif i[-1]=='#':
+            a = int(i[:-2])
+            if i[-2]=='S':
+                a = a
+            elif i[-2]=='D':
+                a = a**2
+            elif i[-2]=='T':
+                a = a**3
+            a = -a
+            answer.append(a)
+        else:
+            a = int(i[:-1])
+            if i[-1]=='S':
+                a = a
+            elif i[-1]=='D':
+                a = a**2
+            elif i[-1]=='T':
+                a = a**3
+            answer.append(a)
+    return sum(answer)
