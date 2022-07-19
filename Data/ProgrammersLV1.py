@@ -318,3 +318,26 @@ def solution(dartResult):
                 a = a**3
             answer.append(a)
     return sum(answer)
+#가운데 글자 가져오기
+def solution(s):
+    if len(s)%2==0:
+        return s[len(s)//2-1:len(s)//2+1]
+    else:
+        return s[(len(s)//2)]
+#비밀지도
+def solution(n, arr1, arr2):
+    sq=[]
+    for i in range(n):
+        sq.append([])
+        for j in range(n):
+            sq[i].append(' ')
+            c_1 = format(arr1[i],'b').zfill(n)
+            if c_1[j]=='1':
+                sq[i][j]='#'
+            d_1 = format(arr2[i],'b').zfill(n)
+            if d_1[j]=='1':
+                sq[i][j]='#'
+        sq[i]=''.join(sq[i])
+    return sq
+            
+            
