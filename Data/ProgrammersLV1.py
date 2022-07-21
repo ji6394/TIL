@@ -354,3 +354,18 @@ def solution(n):
     for i in range(1,n):
         if n%i == 1:
             return i
+# 최소직사각형
+def solution(sizes):
+    lst=[]
+    for size in sizes:
+        lst.append([max(size),min(size)])
+    a, b = zip(*lst)
+    x=max(a)
+    y=max(b)
+    return x*y
+# 2016년
+import datetime
+def solution(a, b):
+    days=['MON','TUE','WED','THU','FRI','SAT','SUN']
+    answer = days[datetime.date(2016,a,b).weekday()]
+    return answer
