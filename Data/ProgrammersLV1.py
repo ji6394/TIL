@@ -369,3 +369,22 @@ def solution(a, b):
     days=['MON','TUE','WED','THU','FRI','SAT','SUN']
     answer = days[datetime.date(2016,a,b).weekday()]
     return answer
+# 두 개 뽑아서 더하기
+def solution(numbers):
+    lst = set()
+    for i in range(len(numbers)):
+        for j in range(i+1, len(numbers)):
+            a=numbers[i]+numbers[j]
+            lst.add(a)
+    answer=list(lst)
+    answer.sort()
+    return answer
+# 예산
+def solution(d, budget):
+    lst=[]
+    d.sort()
+    for i in d:
+        if sum(lst)+i>budget:
+            break
+        lst.append(i)
+    return len(lst)
