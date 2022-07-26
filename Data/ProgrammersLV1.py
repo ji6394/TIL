@@ -388,3 +388,34 @@ def solution(d, budget):
             break
         lst.append(i)
     return len(lst)
+# 3진법 뒤집기
+def solution(n):
+    b=True
+    a=[]
+    if n<3:
+        a.append(n)
+        b=False
+    while b:
+        n,r = divmod(n,3)
+        a.append(r)
+        if n<3:
+            a.append(n)
+            break
+    answer = 0
+    for k,i in enumerate(a):
+        answer += i*(3**(len(a)-(k+1)))
+        print(answer)
+    return answer
+# 약수의 개수와 덧셈
+def solution(left, right):
+    answer = []
+    for i in range(left, right+1):
+        check=[]
+        for j in range(1,i):
+            if i%j == 0:
+                check.append(j)
+        if len(check)%2==0:
+            answer.append(-i)
+        else:
+            answer.append(i)
+    return sum(answer)
