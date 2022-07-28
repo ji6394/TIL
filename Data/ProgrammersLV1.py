@@ -436,3 +436,24 @@ def solution(brown, yellow):
                 answer.append(yellow_y+2)
                 
                 return sorted(answer, reverse = True)
+# 이중우선순위큐
+def solution(operations):
+    answer=[]
+    for i in range(len(operations)):
+        a,b = operations[i].split()
+        b=int(b)
+        if a == 'I':
+            answer.append(b)
+            answer.sort()
+        elif a =='D':
+            if answer==[]:
+                continue
+            else:
+                if b==-1:
+                    del answer[0]
+                else:
+                    answer.pop()
+    if answer==[]:
+        answer=[0,0]
+    return [max(answer), min(answer)]
+            
