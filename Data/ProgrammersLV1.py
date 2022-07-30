@@ -456,4 +456,19 @@ def solution(operations):
     if answer==[]:
         answer=[0,0]
     return [max(answer), min(answer)]
-            
+# 실패율
+import numpy as np
+def solution(N, stages):
+    answer = []
+    dic={}
+    stages= np.array(stages)
+    for i in range(1,N+1):
+        try:
+            fail = (len(stages[np.where(stages==i)]))/(len(stages[np.where(stages>=i)]))
+        except:
+            fail = 0
+        dic[i]=fail
+    sol = sorted(dic.items(), key = lambda x:x[1], reverse=True)
+    for a,b in sol:
+        answer.append(a)
+    return answer
