@@ -80,3 +80,105 @@ sns.violinplot('Sex','Age',hue='Survived', data=df_train, scale='count',split=Tr
 ax[1].set_title('Sex and Age vs Survived')
 ax[1].set_yticks(range(0,110,10))
 plt.show()
+
+df_train['Initial'] = df_train.Name.str.extract('([A-Za-z]+)\.')
+df_test['Initial'] = df_test.Name.str.extract('([A-Za-z]+)\.')
+
+df_train['Initial'].replace(['Mlle','Mme','Ms','Dr','Major','Lady','Countess','Jonkheer','Col','Rev','Capt','Sir','Don', 'Dona'],
+                        ['Miss','Miss','Miss','Mr','Mr','Mrs','Mrs','Other','Other','Other','Mr','Mr','Mr', 'Mr'],inplace=True)
+
+df_test['Initial'].replace(['Mlle','Mme','Ms','Dr','Major','Lady','Countess','Jonkheer','Col','Rev','Capt','Sir','Don', 'Dona'],
+                        ['Miss','Miss','Miss','Mr','Mr','Mrs','Mrs','Other','Other','Other','Mr','Mr','Mr', 'Mr'],inplace=True)
+
+df_train.groupby(['Initial']).mean()
+
+df_train.loc[(df_train['Age'].isnull())&(df_train.Initial=='Mr'),'Age']=33
+df_train.loc[(df_train['Age'].isnull())&(df_train.Initial=='Mrs'),'Age']=36
+df_train.loc[(df_train.Age.isnull())&(df_train.Initial=='Master'),'Age'] = 5
+df_train.loc[(df_train.Age.isnull())&(df_train.Initial=='Miss'),'Age'] = 22
+df_train.loc[(df_train.Age.isnull())&(df_train.Initial=='Other'),'Age'] = 46
+
+df_test.loc[(df_test.Age.isnull())&(df_test.Initial=='Mr'),'Age'] = 33
+df_test.loc[(df_test.Age.isnull())&(df_test.Initial=='Mrs'),'Age'] = 36
+df_test.loc[(df_test.Age.isnull())&(df_test.Initial=='Master'),'Age'] = 5
+df_test.loc[(df_test.Age.isnull())&(df_test.Initial=='Miss'),'Age'] = 22
+df_test.loc[(df_test.Age.isnull())&(df_test.Initial=='Other'),'Age'] = 46
+
+df_train.Embarked.fillna('S',inplace=True)
+
+df_train['Age_cat']=0
+df_train.loc[df_train['Age']<10,'Age_cat']=0
+df_train.loc[(10<=df_train['Age'])&(df_train['Age']<20),'Age_cat']=1
+df_train.loc[(20 <= df_train['Age']) & (df_train['Age'] < 30), 'Age_cat'] = 2
+df_train.loc[(30 <= df_train['Age']) & (df_train['Age'] < 40), 'Age_cat'] = 3
+df_train.loc[(40 <= df_train['Age']) & (df_train['Age'] < 50), 'Age_cat'] = 4
+df_train.loc[(50 <= df_train['Age']) & (df_train['Age'] < 60), 'Age_cat'] = 5
+df_train.loc[(60 <= df_train['Age']) & (df_train['Age'] < 70), 'Age_cat'] = 6
+df_train.loc[70 <= df_train['Age'], 'Age_cat'] = 7
+
+df_test['Age_cat'] = 0
+df_test.loc[df_test['Age'] < 10, 'Age_cat'] = 0
+df_test.loc[(10 <= df_test['Age']) & (df_test['Age'] < 20), 'Age_cat'] = 1
+df_test.loc[(20 <= df_test['Age']) & (df_test['Age'] < 30), 'Age_cat'] = 2
+df_test.loc[(30 <= df_test['Age']) & (df_test['Age'] < 40), 'Age_cat'] = 3
+df_test.loc[(40 <= df_test['Age']) & (df_test['Age'] < 50), 'Age_cat'] = 4
+df_test.loc[(50 <= df_test['Age']) & (df_test['Age'] < 60), 'Age_cat'] = 5
+df_test.loc[(60 <= df_test['Age']) & (df_test['Age'] < 70), 'Age_cat'] = 6
+df_test.loc[70 <= df_test['Age'], 'Age_cat'] = 7
+
+df_train['Initial'] = df_train['Initial'].map({'Master':0,'Miss':1,'Mr':2,'Mrs':3,'Other':4})
+df_test['Initial']=df_test['Initial'].map({'Master':0,'Miss':1,'Mr':2,'Mrs':3,'Other':4})
+
+df_train['Embarked']=df_train['Embarked'].map({'C':0,'Q':1,'S':2})
+df_test['Embarked']=df_test['Embarked'].map({'C':0,'Q':1,'S':2})
+
+df_train['Embarked'].isnull().sum()
+
+df_train['Sex']=df_train['Sex'].map({'female':0,'male':1})
+df_test['Sex']=df_test['Sex'].map({'female':0, 'male':1})
+
+heatmap_data = df_train[['Survived','Pclass','Sex','Fare','Embarked','FamilySize','Initial','Age_cat']]
+colormap = plt.cm.RdBu
+plt.figure(figsize=(14,12))
+sns.heatmap(heatmap_data.astype(float).corr(),linewidths=0.1,vmax=1.0,square=True,cmap=colormap, linecolor='white',annot=True, annot_kws={'size':16})
+del heatmap_data
+
+df_train = pd.get_dummies(df_train, columns=['Initial'], prefix='Initial')
+df_test = pd.get_dummies(df_test, columns=['Initial'], prefix='Initial')
+
+df_train = pd.get_dummies(df_train, columns=['Embarked'], prefix = 'Embarked')
+df_test = pd.get_dummies(df_test, columns=['Embarked'], prefix='Embarked')
+df_train.drop(['PassengerId', 'Name', 'SibSp', 'Parch', 'Ticket', 'Cabin'], axis=1, inplace=True)
+df_test.drop(['PassengerId', 'Name',  'SibSp', 'Parch', 'Ticket', 'Cabin'], axis=1, inplace=True)
+
+#머신러닝
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
+
+x_train = df_train.drop('Survived', axis=1).values
+target_label = df_train['Survived'].values
+x_test = df_test.values
+
+x_tr, x_vld, y_tr, y_vld = train_test_split(x_train, target_label, test_size=0.3, random_state=2018)
+
+model = RandomForestClassifier()
+model.fit(x_tr, y_tr)
+prediction = model.predict(x_vld)
+
+print(y_vld.shape[0], 100*metrics.accuracy_score(prediction, y_vld))
+
+from pandas import Series
+
+feature_importance = model.feature_importances_
+Series_feat_imp = Series(feature_importance, index=df_test.columns)
+
+plt.figure(figsize=(8,8))
+Series_feat_imp.sort_values(ascending=True).plot.barh()
+
+submission = pd.read_csv('gender_submission.csv')
+
+prediction = model.predict(x_test)
+submission['Survived']=prediction
+
+submission.to_csv('my_first_submission.csv', index=False)
