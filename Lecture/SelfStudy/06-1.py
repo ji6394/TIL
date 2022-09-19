@@ -1,5 +1,5 @@
 #colab에서 데이터 불러오기
-!wget https://bit.ly/fruits_300_data -O fruits_300.npy
+#!wget https://bit.ly/fruits_300_data -O fruits_300.npy
 
 import numpy as np
 import matplotlib.pyplot as plt
