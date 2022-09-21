@@ -22,9 +22,8 @@ def draw_fruits(arr, ratio=1):
     for i in range(rows):
         for j in range(cols):
             if i*10+j<n:
-                if i*10+j<n:
-                    axs[i,j].imshow(arr[i*10+j], cmap='gray_r')
-                axs[i,j].axis('off')
+                axs[i,j].imshow(arr[i*10+j], cmap='gray_r')
+            axs[i,j].axis('off')
     plt.show()
 
 #차원이 같기 때문에 fruits_2d 대신에 fruits 사용 가능
