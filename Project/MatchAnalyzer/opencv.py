@@ -251,3 +251,46 @@ for i in range(2000):
 print("최종 구분된 실사이미지 개수: ", len(real_image_index_1))
 print(real_image_index_1)
 print(real_image_path_1)
+
+# 영상에서 선수 객체 탐지 성공!!!!!
+
+# import necessary packages
+import cvlib as cv
+from cvlib.object_detection import draw_bbox
+import cv2
+
+# open mp4
+cap = cv2.VideoCapture('asmmar.mp4')
+
+if not cap.isOpened():
+    print("Could not open mp4")
+    exit()
+    
+
+# loop through frames
+while cap.isOpened():
+
+    # read frame from webcam 
+    status, frame = cap.read()
+
+    if not status:
+        break
+
+    # apply object detection (물체 검출)
+    bbox, label, conf = cv.detect_common_objects(frame)
+
+    print(bbox, label, conf)
+
+    # draw bounding box over detected objects (검출된 물체 가장자리에 바운딩 박스 그리기)
+    out = draw_bbox(frame, bbox, label, conf, write_conf=True)
+
+    # display output
+    cv2.imshow("Real-time object detection", out)
+
+    # press "Q" to stop
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+    
+# release resources
+webcam.release()
+cv2.destroyAllWindows()   
