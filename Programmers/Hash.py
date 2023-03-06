@@ -28,4 +28,12 @@ def solution(participant, completion):
     answer = dic[temp]
 
     return answer
-    
+
+#폰켓몬
+def solution(nums):
+    l = len(set(nums))
+    n = int(len(nums)/2)
+    if l>=n:
+        return n
+    else:
+        return l
