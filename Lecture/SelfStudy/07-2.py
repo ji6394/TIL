@@ -1,10 +1,10 @@
 #데이터셋 로드
-from tensorflow import keras
+import keras
 (train_input, train_target), (test_input, test_target)=\
     keras.datasets.fashion_mnist.load_data()
 #데이터 전처리
 from sklearn.model_selection import train_test_split
-train_scaled = train/255.0
+train_scaled = train_input /255.0
 train_scaled = train_scaled.reshape(-1,28*28)
 train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_target, test_size = 0.2, random_state = 42)
 
