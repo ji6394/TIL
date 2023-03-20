@@ -47,3 +47,22 @@ plt.show()
 plt.figure(figsize=(10,7))
 plot_tree(dt, max_depth=1, filled=True, feature_names=['alcohol','sugar','pH'])
 plt.show()
+
+#가지치기
+dt = DecisionTreeClassifier(max_depth=3, random_state = 42)
+dt.fit(train_scaled, train_target)
+print(dt.score(train_scaled, train_target))
+print(dt.score(test_scaled, test_target))
+
+plt.figure(figsize=(10,7))
+plot_tree(dt, filled=True, feature_names=['alcohol','sugar','pH'])
+plt.show()
+
+#결정트리알고리즘은 표준화 전처리 과정이 필요 없음
+dt = DecisionTreeClassifier(max_depth = 3, random_state = 42)
+dt.fit(train_input, train_target)
+print(dt.score(train_input, train_target))
+print(dt.score(test_input, test_target))
+
+#특성 중요도
+print(dt.feature_importances_)
