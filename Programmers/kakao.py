@@ -47,4 +47,39 @@ def solution(numbers, hand):
             else:
                 now_r = num
     return result
-            
+
+#신규 아이디 추천
+import re
+def solution(new_id):
+    #대문자를 소문자로 변경
+    new_id = new_id.lower()
+    
+    #소문자,숫자,빼기,밑줄,마침표 제외 제거
+    lvl2 = re.compile('[0-9a-z_.\-]+') #해당 하는 문자
+    new_id = lvl2.findall(new_id)
+    new_id=''.join(new_id)
+    
+    #연속된 . 제거
+    while '..' in new_id:
+        new_id = new_id.replace('..','.')
+        
+    # 처음이나 끝에 .?
+    new_id = new_id.strip('.')
+    
+    #빈문자열 a 추가
+    if new_id=='':
+        new_id += 'a'
+    
+    #16자 이상일경우 문자 제거
+    if len(new_id)>=16:
+        new_id = new_id[:15]
+        new_id = new_id.rstrip('.')
+    
+    #2자 이하일 경우 마지막 문자 복사
+    if len(new_id)<=2:
+        size = len(new_id)
+        addchar = new_id[size-1:]
+        while len(new_id)<3:
+            new_id+=addchar
+    answer = new_id
+    return answer
