@@ -83,3 +83,11 @@ def solution(new_id):
             new_id+=addchar
     answer = new_id
     return answer
+# 숫자 문자열과 영단어
+def solution(s):
+    answer=0
+    a = ['zero','one','two','three','four','five','six','seven','eight','nine']
+    for i in a:
+        s = s.replace(i, str(a.index(i)))
+    #replace는 해당 요소가 발견되지 않을 경우 원래 값 리턴
+    return int(s)
