@@ -91,3 +91,10 @@ def solution(s):
         s = s.replace(i, str(a.index(i)))
     #replace는 해당 요소가 발견되지 않을 경우 원래 값 리턴
     return int(s)
+# 없는 숫자 더하기
+def solution(numbers):
+    answer=[]
+    for i in range(10):
+        if i not in numbers:
+            answer.append(i)
+    return sum(answer)
