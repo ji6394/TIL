@@ -120,3 +120,26 @@ def solution(id_list, report, k):
         answer.append(result)
     return answer
     
+# 성격 유형 검사하기
+import numpy as np
+def solution(survey, choices):
+    choices = np.subtract(choices,4)
+    answer=[]
+    num = 0
+    cat = [['R','T'],['C','F'],['J','M'],['A','N']]
+    for j in cat:
+        stat=0
+        for i in survey:
+            if j[0] in i:
+                if i.index(j[0]):
+                    stat+=choices[survey.index(i)]
+                else:
+                    stat-=choices[survey.index(i)]
+        if stat<0:
+            answer.append(j[1])
+        else:
+            answer.append(j[0])
+    answer = ''.join(answer)
+    return answer
+            
+            
