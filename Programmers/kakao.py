@@ -120,7 +120,7 @@ def solution(id_list, report, k):
         answer.append(result)
     return answer
     
-# 성격 유형 검사하기
+# 성격 유형 검사하기(1)
 import numpy as np
 def solution(survey, choices):
     choices = np.subtract(choices,4)
@@ -141,5 +141,21 @@ def solution(survey, choices):
             answer.append(j[0])
     answer = ''.join(answer)
     return answer
-            
+# 성격유형검사하기 (2)
+def solution(survey, choices):
+    mbti = ''
+    answer = {'R':0, 'T':0, 'C':0, 'F':0, 'J':0, 'M':0, 'A':0, 'N':0}
+    for s, c in zip(survey, choices):
+        if c<4:
+            answer[s[0]] += (4-c)
+        elif c>4:
+            answer[s[1]] += (c-4)
+    first = ['R','C','J','A']
+    second = ['T','F','M','N']
+    for f, s in zip(first, second) :
+        if answer[f] < answer[s]:
+            mbti += s
+        elif answer[f] >= answer[s]:
+            mbti += f
+    return mbti
             
