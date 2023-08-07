@@ -158,4 +158,22 @@ def solution(survey, choices):
         elif answer[f] >= answer[s]:
             mbti += f
     return mbti
-            
+# 숫자 짝꿍
+def solution(X, Y):
+    x = list(str(X))
+    y = list(str(Y))
+    cat = []
+    for a in x:
+        if a in y:
+            cat.append(a)
+            y.remove(a)
+    if len(cat)==0:
+        answer = '-1'
+    else:
+        q = list(map(int, cat))
+        q.sort(reverse=True)
+        q = list(map(str, q))
+        answer = ''.join(q)
+        if answer[0]=='0':
+            answer = '0'
+    return answer
