@@ -39,3 +39,15 @@ def solution(lottos, win_nums):
         else:
             answer.append(6)
     return answer
+# 삼총사
+from itertools import combinations
+def solution(number):
+    answer = 0
+    ego=[]
+    cat = list(combinations(number,3))
+    for i in cat:
+        ego.append(sum(i))
+    for j in ego:
+        if j==0:
+            answer+=1
+    return answer
