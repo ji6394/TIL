@@ -51,3 +51,24 @@ def solution(number):
         if j==0:
             answer+=1
     return answer
+# 콜라문제 : 런타임 오류
+def solution(a, b, n):
+    get = 0
+    switch= True
+    while switch:
+        y = n%a
+        if y == 0:
+            x = n//a
+            get+=x
+            n = x
+            if n <2:
+                switch=False
+        else:
+            x= n//a
+            get+=x
+            n = x+y
+            if n<2:
+                switch=False
+    return get
+            
+            
