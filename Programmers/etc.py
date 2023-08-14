@@ -70,5 +70,25 @@ def solution(a, b, n):
             if n<2:
                 switch=False
     return get
+# 콜라문제 해결(문제 제대로 안읽음,,ㅋㅋ)
+def solution(a, b, n):
+    get = 0
+    switch= True
+    while switch:
+        y = n%a
+        if y == 0:
+            x = b*(n//a)
+            get+=x
+            n = x
+            if n <a:
+                switch=False
+        else:
+            x= b*(n//a)
+            get+=x
+            n = x+y
+            if n<a:
+                switch=False
+    return get
+            
             
             
