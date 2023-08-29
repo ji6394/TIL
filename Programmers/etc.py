@@ -114,3 +114,26 @@ def solution(ingredient):
             answer+=1
             del s[-4:]
     return answer
+# 푸드 파이트 대회 : 일부 문제 오류
+def solution(food):
+    s=[]
+    answer=[]
+    food2=food[1:]
+    for i in food2:
+        if i % 2 == 1:
+            i -= 1
+        s.append(int(i/2))
+    for j in s:
+        for _ in range(j):
+            answer.append(s.index(j)+1)
+    answer_2 = list(reversed(answer))
+    answer_new = answer + [0] + answer_2
+    answer_d = list(map(str,answer_new))
+    a = ''.join(answer_d)
+    return a
+# 푸드파이트 정답
+def solution(food):
+    temp = '' # 왼쪽 선수 음식
+    for i in range(1, len(food)):
+        temp += str(i) * (food[i]//2)
+    return temp + '0' + temp[::-1]
