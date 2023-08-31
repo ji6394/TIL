@@ -137,3 +137,13 @@ def solution(food):
     for i in range(1, len(food)):
         temp += str(i) * (food[i]//2)
     return temp + '0' + temp[::-1]
+# 과일 장수
+def solution(k, m, score):
+    score.sort()
+    answer=0
+    for i in range(len(score)//m):
+        l = []
+        for j in range(m):
+            l.append(score.pop())
+        answer += (min(l)*m)
+    return answer
