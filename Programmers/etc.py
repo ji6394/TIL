@@ -185,3 +185,19 @@ def solution(number, limit, power):
         total += len_cds
 
     return total
+# 명예의전당(1)
+def solution(k, score):
+    top = []
+    low = []
+    for i in score:
+        if len(top)!=k:
+            top.append(i)
+            low.append(min(top))
+        else:
+            if i>low[-1]:
+                top.remove(low[-1])
+                top.append(i)
+                low.append(min(top))
+            else:
+                low.append(min(top))
+    return low
