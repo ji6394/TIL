@@ -215,3 +215,17 @@ def solution(s):
            cnt2+=1
        
    return answer
+# 가장 가까운 같은 글자
+def solution(s):
+    s = list(s)
+    comp = []
+    result = []
+    for i in s:
+        if i not in comp:
+            result.append(-1)
+        else:
+            cat = [j for j,v in enumerate(comp) if v == i]
+            spot = max(cat)            
+            result.append(len(comp)-spot)
+        comp.append(i)
+    return result
