@@ -229,3 +229,11 @@ def solution(s):
             result.append(len(comp)-spot)
         comp.append(i)
     return result
+# 크기가작은 부분문자열
+def solution(t, p):
+    answer=0
+    for i in range(len(t)-len(p)+1):
+        num = int(t[i:i+len(p)])
+        if num <= int(p):
+            answer+=1
+    return answer
