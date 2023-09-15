@@ -258,3 +258,11 @@ def solution(today, terms, privacies):
             answer.append(idx+1)    
     
     return answer
+# 둘만의 암호
+def solution(s, skip, index):
+    abc = [chr(i) for i in range(97, 123) if not chr(i) in skip] * 3
+    answer = ''
+    for i in s:
+        answer += abc[abc.index(i) + index]
+        
+    return answer
