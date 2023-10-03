@@ -288,3 +288,37 @@ def solution(n, m, section):
             paint = section[i]
             
     return answer
+# 바탕화면 정리(1트)
+def solution(wallpaper):
+    lux = len(wallpaper)
+    luy = len(wallpaper[0])
+    rdx = 0
+    rdy = 0
+    for i in wallpaper:
+        for j in i:
+            if j == '#':
+                if wallpaper.index(i) < lux:
+                    lux = wallpaper.index(i) #lux
+                if i.index(j) < luy:
+                    luy = i.index(j) #luy
+                if wallpaper.index(i)+1 > rdx:
+                    rdx = wallpaper.index(i)+1 #rdx
+                rev_i = list(reversed(i))
+                ind = len(rev_i) - rev_i.index('#')
+                if ind > rdy:
+                    rdy = ind #rdy
+    return [lux,luy,rdx,rdy]
+# 바탕화면 정리 풀이
+def solution(wallpaper):
+    answer = [51, 51, 0, 0]
+    lux, luy, rdx, rdy= 0, 1, 2, 3
+    
+    for i, elements in enumerate(wallpaper):
+        for j, element in enumerate(elements):
+            if element == '#':
+                answer[lux] = min(answer[lux], i)
+                answer[luy] = min(answer[luy], j)
+                answer[rdx] = max(answer[rdx], i+1)
+                answer[rdy] = max(answer[rdy], j+1)
+                
+    return answer
