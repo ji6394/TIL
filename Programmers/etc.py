@@ -359,3 +359,14 @@ def solution(park, routes):
             x, y = nx, ny  
         
     return [x, y]
+    # 추억 점수
+    def solution(name, yearning, photo):
+    score_dict = dict(zip(name,yearning))
+    result=[]
+    for i in photo:
+        score = 0
+        for j in i:
+            if j in score_dict:
+                score += score_dict[j]
+        result.append(score)
+    return result
