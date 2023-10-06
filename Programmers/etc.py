@@ -370,3 +370,18 @@ def solution(park, routes):
                     score += score_dict[j]
             result.append(score)
         return result
+# 달리기 경주(시간 초과)
+def solution(players, callings):
+    for i in callings:
+        a = players.index(i)
+        players[a-1], players[a] = players[a], players[a-1]
+    return players
+# 달리기 경주 : 딕셔너리를 이용해서 시간 줄임
+def solution(players, callings):
+    result = {player: i for i, player in enumerate(players)} # 선수: 등수
+    for who in callings:
+        idx = result[who] # 호명된 선수의 현재 등수
+        result[who] -= 1 # 하나 앞 등수로 바꿔줌 -1
+        result[players[idx-1]] += 1 # 앞에 위치했던 선수의 등수 +1
+        players[idx-1], players[idx] = players[idx], players[idx-1] # 위치 변경
+    return players
