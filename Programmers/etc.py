@@ -385,3 +385,12 @@ def solution(players, callings):
         result[players[idx-1]] += 1 # 앞에 위치했던 선수의 등수 +1
         players[idx-1], players[idx] = players[idx], players[idx-1] # 위치 변경
     return players
+# 요격 시스템
+def solution(targets):
+    targets.sort(key = lambda x:x[1])
+    cnt, end = 0, 0
+    for s,e in targets:
+        if s >= end:
+            cnt+=1
+            end = e
+    return cnt
