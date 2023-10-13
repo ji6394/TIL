@@ -409,26 +409,19 @@ def solution(r1, r2):
     return answer*4
 # 연속된 부분 수열의 합
 def solution(sequence, k):
-    answer = []
-    start, end = 0,0
-    temp = sequence[0]
-    min_len = 1000001
+    l = r = 0
+    answer = [0, len(sequence)]
+    sum = sequence[0]
 
-    while start <= end < len(sequence):
-        if temp == k :
-            if end - start + 1 < min_len :
-                min_len = end - start + 1
-                answer = [start, end]
-            temp -= sequence[start]
-            start += 1
-
-        elif temp < k :
-            end += 1
-            if end < len(sequence) :
-                temp += sequence[end]
-
-        elif temp > k :
-            temp -= sequence[start]
-            start += 1
-
+    while True:
+        if sum < k:
+            r += 1
+            if r == len(sequence): break
+            sum += sequence[r]
+        else:
+            if sum == k:
+                if r-l < answer[1]-answer[0]:
+                    answer = [l, r]
+            sum -= sequence[l]
+            l += 1
     return answer
