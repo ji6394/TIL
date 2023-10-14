@@ -425,3 +425,19 @@ def solution(sequence, k):
             sum -= sequence[l]
             l += 1
     return answer
+# 과제 진행하기(ing...)
+def solution(plans):
+    for i in plans:
+        h,m = map(int,i[1].split(':'))
+        start_time = h*60+m
+        i.append(start_time)
+    plans.sort(key=lambda x:x[3])
+    ing=[]
+    result=[]
+    for i in range(len(plans)):
+        if plans[i+1][3]-plans[i][3]<int(plans[2]):
+            ing.append(plans[i][0])
+        elif plans[i+1][3]-plans[i][3]>=int(plans[2]):
+            result.append(plans[i][0])
+            
+    
