@@ -439,5 +439,29 @@ def solution(plans):
             ing.append(plans[i][0])
         elif plans[i+1][3]-plans[i][3]>=int(plans[2]):
             result.append(plans[i][0])
-            
+#과제 진행하기(ver1) : 시도해봤으나 첫번째 or 두번째 값까지만 리턴해줌
+def solution(plans):
+    for i in plans:
+        h,m = map(int,i[1].split(':'))
+        start_time = h*60+m
+        i.append(start_time)
+    plans.sort(key=lambda x:x[3])
+    ing={} #과목과 남은 시간을 함께 입력해주어야 할듯
+    result=[]
+    for i in range(len(plans)-1):
+        working_time = plans[i+1][3]-plans[i][3]
+        reserve_time = int(plans[i][2])
+        to_do = plans[i][0]
+        while working_time > reserve_time: # 작업시간이 남는 경우
+            result.append(to_do)
+            working_time -= reserve_time
+            if ing:#ing에 요소가 있을 경우
+                to_do, reserve_time = ing.popitem()
+            else:#ing에 요소가 없을 경우 break 해주어야 할듯
+                break
+        if working_time < reserve_time: #작업시간이 모자랄 경우
+            ing[plans[i][0]]=reserve_time
+        elif working_time == reserve_time:
+            result.append(plans[i][0])
+    return result
     
