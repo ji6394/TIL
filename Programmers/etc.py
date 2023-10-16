@@ -500,4 +500,25 @@ def solution(plans):
         result.append(to_do)
     return result
                 
-            
+# 광물 캐기
+def solution(picks, minerals):
+    tired = [[1,1,1],[5,1,1],[25,5,1]]
+    score=0
+    minerals_new=[]
+    for i in minerals:
+        if i =='diamond':
+            minerals_new.append(0)
+        elif i == 'iron':
+            minerals_new.append(1)
+        else:
+            minerals_new.append(2)
+    for i in range(len(picks)):#012
+        time = picks[i]#1
+        ind = 0
+        for k in range(time):
+            count = 0
+            while count <5 and ind<len(minerals):
+                score += tired[i][minerals_new[ind]]
+                count +=1
+                ind+=1
+    return score
