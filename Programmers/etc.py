@@ -544,3 +544,29 @@ def solution(picks, minerals):
                 count +=1
                 ind+=1
     return score
+def solution(picks, minerals):#어떻게 해야 최솟값이 되는지 고려 : 
+    tired = [[1,1,1],[5,1,1],[25,5,1]]
+    score=0
+    minerals_new=[]
+    for i in minerals:
+        if i =='diamond':
+            minerals_new.append(0)
+        elif i == 'iron':
+            minerals_new.append(1)
+        else:
+            minerals_new.append(2)
+    minerals_new.sort() #di-iron-stone순으로 캐면 제일 좋은거아닌가?
+    ind=0
+    mineral_state=True
+    for j in range(len(picks)):#012
+        time = picks[j]#1
+        for k in range(time):
+            count = 0
+            while count <5 and mineral_state:
+                score += tired[j][minerals_new[ind]]
+                count +=1
+                ind+=1
+                if ind>=len(minerals_new):
+                    mineral_state = False
+                    
+    return minerals_new
