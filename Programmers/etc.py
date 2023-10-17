@@ -522,3 +522,25 @@ def solution(picks, minerals):
                 count +=1
                 ind+=1
     return score
+# 광물캐기 (테스트 케이스는 통과, 채점 약 42점)
+def solution(picks, minerals):
+    tired = [[1,1,1],[5,1,1],[25,5,1]]
+    score=0
+    minerals_new=[]
+    for i in minerals:
+        if i =='diamond':
+            minerals_new.append(0)
+        elif i == 'iron':
+            minerals_new.append(1)
+        else:
+            minerals_new.append(2)
+    ind=0
+    for j in range(len(picks)):#012
+        time = picks[j]#1
+        for k in range(time):
+            count = 0
+            while count <5 and ind<len(minerals_new):
+                score += tired[j][minerals_new[ind]]
+                count +=1
+                ind+=1
+    return score
