@@ -165,3 +165,35 @@ SELECT CONVERT(AVG(price), SIGNED) '평균 가격' FROM buy;
 SELECT num, CONCAT(CAST(price AS CHAR), 'X', CAST(amount AS CHAR), '=') '가격X수량',
 	price*amount '구매액'
     FROM buy;
+
+-- 10강
+-- 10강
+USE market_db;
+SELECT * 
+	FROM buy
+		INNER JOIN member
+        ON buy.mem_id = member.mem_id;
+SELECT buy.mem_id, mem_name, prod_name, addr, CONCAT(phone1,phone2) AS '연락처' -- 조인 시 두 테이블의 열 이름이 같을 경우 어떤 테이블의 열을 가져올 것인지 설정해줘야 함
+	FROM buy
+		INNER JOIN member
+        ON buy.mem_id = member.mem_id;
+
+SELECT M.mem_id, M.mem_name, B.prod_name, M.addr
+	FROM member M
+		LEFT OUTER JOIN buy B
+        ON M.mem_id = B.mem_id
+	ORDER BY M.mem_id;
+
+SELECT *
+	FROM buy
+		CROSS JOIN member;
+
+SELECT COUNT(*)
+	FROM sakila.inventory
+		CROSS JOIN world.city;
+
+SELECT A.emp "직원", B.emp "직속상관", B.phone "직속상관연락처"
+	FROM emp_table A
+		INNER JOIN emp_table B
+			ON A.manager = B.emp
+	WHERE A.emp = '경리부장';
