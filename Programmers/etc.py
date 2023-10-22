@@ -625,3 +625,31 @@ def solution(picks, minerals):
     max_idx = min(sum(picks), len(minerals))
     answer = dfs(0, picks, minerals, 0, max_idx)
     return answer
+# 리코챗 로봇
+def solution(board):
+    # 이동변수 글로벌변수로 설정
+    shift_list = []
+    # 1. R과 G의 위치 인덱스 찾기
+    point = [0,0]
+    goal = [0,0]
+    for i in board:
+        for j in i:
+            if j == 'R':
+                point = [board.index(i), i.index(j)]
+            if j == 'G':
+                goal = [board.index(i), i.index(j)]
+    # 상하좌우 이동 시 각 이동 별로 이동 변수 설정
+    # 좌우 이동과 상하 이동 구분해야할듯
+    while point != goal:
+        #이동변수 할당
+        move = 0
+        #좌
+        while board[point[0],point[1]-1]=='.':
+            point[1] -= 1
+            if point[1]==0 or board[point[0], point[1]-1]=='D':# 막힐경우
+                move +=1
+                break
+    # 왼쪽or오른쪽으로 이동했을 때 이후 선택지는 상하 두개 뿐!
+    # 상하이동 시 이후 선택지는 좌우 두개 뿐!
+    
+                
