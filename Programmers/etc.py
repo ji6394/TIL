@@ -651,5 +651,24 @@ def solution(board):
                 break
     # 왼쪽or오른쪽으로 이동했을 때 이후 선택지는 상하 두개 뿐!
     # 상하이동 시 이후 선택지는 좌우 두개 뿐!
+
     
+# 당구연습
+import math
+def solution(m, n, startX, startY, balls):
+    answer = []
+    # 목표점을 각 사변에 거리만큼 너머에 가상의 목표점 설정. 이후 최소거리가 나왔을 때 해당 최소거리를 answer에 append
+    for goalx, goaly in balls:
+        #가상의 점 4개 만들기
+        fake=[]
+        fake.append([goalx, goaly+2*(n-goaly)])
+        fake.append([goalx-2*(m-goalx),goaly])
+        fake.append([goalx+2*(m-goalx),goaly])
+        fake.append([goalx, goaly-2*(n-goaly)])
+        dist = []
+        for i in fake:
+            dist.append((startX-i[0])**2+(startY-i[1])**2)
+        answer.append(min(dist))
+    return answer
+        
                 
