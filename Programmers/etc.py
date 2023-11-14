@@ -653,7 +653,7 @@ def solution(board):
     # 상하이동 시 이후 선택지는 좌우 두개 뿐!
 
     
-# 당구연습
+# 당구연습 : 원쿠션 전에 맞는 경우는 어카죠???
 import math
 def solution(m, n, startX, startY, balls):
     answer = []
@@ -670,5 +670,34 @@ def solution(m, n, startX, startY, balls):
             dist.append((startX-i[0])**2+(startY-i[1])**2)
         answer.append(min(dist))
     return answer
-        
-                
+# 당구 연습 : 남의 풀이를 가져와봣다. 여기서 중요한점은 벽 너머로 가상의 점을 찍는게 핵심인듯
+def solve(x, y, startX, startY, ballX, ballY):
+    dists = []
+    # 위쪽 벽
+    # 단, x좌표가 같고 목표의 y가 더 크면 안된다.
+    if not (ballX == startX and ballY > startY):
+        d2 = (ballX - startX)**2 + (ballY - 2*y+startY)**2
+        dists.append(d2)
+    # 아래쪽 벽
+    # 단, x좌표가 같고 목표의 y가 더 작으면 안된다.
+    if not (ballX == startX and ballY < startY):
+        d2 = (ballX - startX)**2 + (ballY + startY)**2
+        dists.append(d2)
+    # 왼쪽 벽에 맞는 경우
+    # 단, y좌표가 같고 목표의 x가 더 작으면 안된다.
+    if not (ballY == startY and ballX < startX):
+        d2 = (ballX + startX)**2 + (ballY - startY)**2
+        dists.append(d2)
+    # 오른쪽 벽
+    # 단, y좌표가 같고 목표의 x가 더 크면 안된다.
+    if not (ballY == startY and ballX > startX):
+        d2 = (ballX - 2*x+startX)**2 + (ballY - startY)**2
+        dists.append(d2)
+    
+    return min(dists)
+    
+def solution(m, n, startX, startY, balls):
+    answer = []
+    for ballX, ballY in balls:
+        answer.append(solve(m, n, startX, startY, ballX, ballY))
+    return answer
