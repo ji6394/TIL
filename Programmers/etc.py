@@ -701,3 +701,9 @@ def solution(m, n, startX, startY, balls):
     for ballX, ballY in balls:
         answer.append(solve(m, n, startX, startY, ballX, ballY))
     return answer
+# 혼자서 하는 틱택토
+def solution(board):
+    # O와 X의 개수를 센다 : O의 개수보다 X의 개수가 같거나 적어야 함
+    # 한줄빙고가 두개가 나오면 안됨
+    # 9개가 모두 찬 경우 무승부
+    
