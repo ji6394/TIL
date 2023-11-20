@@ -740,4 +740,53 @@ def solution(board):
         return 0
     return 1
     # 9개가 모두 찬 경우 무승부
+# 혼자서 하는 틱택토 ver2
+def solution(board):
+    # O와 X의 개수를 센다 : O의 개수보다 X의 개수가 같거나 적어야 함
+    o_num = 0
+    x_num = 0
+    for i in board:
+        for j in i:
+            if j=='O':
+                o_num += 1
+            elif j=='X':
+                x_num += 1
+    if o_num < x_num or o_num - x_num >=2:
+        return 0
+    # 한줄빙고가 두개가 나오면 안됨
+    # 제일 위에 첫 줄을 보고 세로 혹은 대각선 한줄 빙고를 파악하면 될듯
+    o_bingo_num = 0
+    x_bingo_num = 0
+    for k in ['O','X']:
+        for i in range(3):
+            if board[0][i]==k:
+                #세로
+                if board[1][i]==k:
+                    if board[2][i]==k:
+                        if k == 'O':
+                            o_bingo_num +=1
+                        else:
+                            x_bingo_num +=1
+        #대각
+        if board[0][0]==k and board[1][1]==k and board[2][2]==k:
+            if k == 'O':
+                o_bingo_num +=1
+            else:
+                x_bingo_num +=1
+        if board[0][2]==k and board[1][1]==k and board[2][0]==k:
+            if k == 'O':
+                o_bingo_num +=1
+            else:
+                x_bingo_num +=1
+        for i in board:
+            if i=='OOO':
+                o_bingo_num +=1
+            elif i=='XXX':
+                x_bingo_num +=1
+    if x_bingo_num != 0 and o_bingo_num !=0:
+        return 0
+    return 1
+    # 9개가 모두 찬 경우 무승부
+    # 빙고가 두개 이상 나올수도 있구나!! 단 O빙고와 X빙고를 구분해서 두 빙고가 같이 나오는 것은 제외해야할듯
+    
     
