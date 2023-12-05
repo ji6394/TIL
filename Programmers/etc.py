@@ -886,4 +886,39 @@ def solution(board):
     # X를 빙고로 이겼을 때와 O를 빙고를 이겼을 때를 구분하여 o의 개수와 x개수를 함께 고려하니 통과함
 
 
-    
+# 미로탈출 ing...
+from collections import *
+def solution(maps):
+    dx = [-1,1,0,0]
+    dy = [0,0,1,-1]
+    N = len(maps) #가로
+    M = len(maps[0]) #세로
+    q = deque()
+    dist = [[987654321 for _ in range(M)] for _ in range(N)]
+    #Start위치 찾기
+    for i in range(N):
+        for j in range(M):
+            if maps[i][j]=='S':
+                q.append((i,j,0))
+                dist[i][j]=0
+            if q:
+                break
+    while q:
+        x,y,c =q.popleft()
+        #레버 위치 찾기
+        if maps[x][y]=='L':
+            return c
+        #네 방향으로 이동할 수 있는 경우 탐색
+        for i in range(4):
+            n_x = x
+            n_y = y
+            
+            # 해당 방향으로 미끄러지며 이동 가능한 위치 찾기
+            while 0<= n_x+dx[i]<N and 0<=n_y+dy[i]<M and maps[n_x+dx[i]][n_y+dy[i]] != 'X':
+                n_x += dx[i]
+                n_y += dy[i]
+            # 이전에 해당 위치에 도달한 적이 없거나 이전에 도달한 경우보다 적은 이동 횟수로 도달 가능한 경우
+            if dist[n_x][n_y] >c+1:
+                dist[n_x][n_y] = c+1
+                q.append((n_x, n_y, c+1))
+    return -1
