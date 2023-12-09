@@ -978,3 +978,21 @@ def solution(maps):
         
    	# 둘중 하나라도 -1 이면 탈출할 수 없음
     return -1
+
+# 호텔 대실 : 예제 테스트는 성공 but 정확도 15.3,,,
+def solution(book_time):
+    new_book_time = []
+    room = []
+    for i in book_time:
+        a, b = map(int,i[0].split(':'))
+        c, d = map(int,i[1].split(':'))
+        new_book_time.append([a*60+b, c*60+d+10])
+    new_book_time.sort(key=lambda x:x[0])
+    if new_book_time:
+        for i in new_book_time:
+            if room:
+                for j in room:
+                    if j[1]<=i[0]:
+                        room.remove(j)
+            room.append(i)
+    return len(room)
