@@ -996,3 +996,21 @@ def solution(book_time):
                         room.remove(j)
             room.append(i)
     return len(room)
+# 호텔 대실 : 여러 예약이 겹칠 수 있으므로 break를 넣어줌으로써 해결!
+def solution(book_time):
+    new_book_time = []
+    room = []
+    for i in book_time:
+        a, b = map(int,i[0].split(':'))
+        c, d = map(int,i[1].split(':'))
+        new_book_time.append([a*60+b, c*60+d+10])
+    new_book_time.sort(key=lambda x:x[0])
+    if new_book_time:
+        for i in new_book_time:
+            if room:
+                for j in room:
+                    if j[1]<=i[0]:
+                        room.remove(j)
+                        break
+            room.append(i)
+    return len(room)
