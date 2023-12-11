@@ -1014,3 +1014,30 @@ def solution(book_time):
                         break
             room.append(i)
     return len(room)
+
+#무인도 여행 : 왜 안되지,,,
+def solution(maps):
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    answer = 0
+    sol = []
+    n = len(maps)
+    m = len(maps[0])
+    check = [[False for _ in range(m)] for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(m):
+            if check[i][j]==False and maps[i][j] != 'X':
+                check[i][j]=True
+                answer += int(maps[i][j])
+                for k in range(4): 
+                    n_x = i
+                    n_y = j
+                    while 0 <= n_x+dx[k]<n and 0<= n_y+dy[k]<m and maps[n_x+dx[k]][n_y+dy[k]] != 'X' and check[n_x+dx[k]][n_y+dy[k]] == False:
+                        n_x += dx[k]
+                        n_y += dy[k]
+                        answer += int(maps[n_x][n_y])
+                        check[n_x][n_y]= True
+            sol.append(answer)
+            answer = 0
+    return sol
