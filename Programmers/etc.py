@@ -1041,3 +1041,67 @@ def solution(maps):
             sol.append(answer)
             answer = 0
     return sol
+# 무인도 여행 chatgpt
+from collections import deque
+
+def solution(maps):
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    answer = 0
+    sol = []
+    que = deque()
+    n = len(maps)
+    m = len(maps[0])
+    check = [[False for _ in range(m)] for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(m):
+            if maps[i][j] != 'X' and not check[i][j]:
+                check[i][j] = True
+                answer += int(maps[i][j])
+                que.append((i, j))
+                while que:
+                    cur_x, cur_y = que.popleft()
+                    for o in range(4):
+                        n_x, n_y = cur_x + dx[o], cur_y + dy[o]
+                        if 0 <= n_x < n and 0 <= n_y < m and maps[n_x][n_y] != 'X':
+                            if not check[n_x][n_y]:
+                                answer += int(maps[n_x][n_y])
+                                check[n_x][n_y] = True
+                                que.append((n_x, n_y))
+                sol.append(answer)
+                answer = 0
+    
+    return sorted(sol)
+
+#무인도여행 mine
+from collections import deque
+def solution(maps):
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    answer = 0
+    sol = []
+    que = deque()
+    n = len(maps)
+    m = len(maps[0])
+    check = [[False for _ in range(m)] for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(m):
+            if maps[i][j]!='X' and not check[i][j]:
+                check[i][j]=True
+                answer += int(maps[i][j])
+                que.append((i,j))
+                while que:
+                    n_x, n_y = que.popleft()
+                    for o in range(4):
+                        n_x += dx[o]
+                        n_y += dy[o]
+                        if 0<= n_x <n and 0<= n_y <m and maps[n_x][n_y] !='X':
+                            if not check[n_x][n_y]:
+                                answer+=int(maps[n_x][n_y])
+                                check[n_x][n_y]=True
+                                que.append((n_x,n_y))
+                sol.append(answer)
+                answer=0
+    return sol
