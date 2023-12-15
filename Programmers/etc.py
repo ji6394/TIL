@@ -1105,3 +1105,18 @@ def solution(maps):
                 sol.append(answer)
                 answer=0
     return sol
+
+# 뒤에 있는 큰 수 찾기 : 시간초과
+def solution(numbers):
+    result=[]
+    for i in range(len(numbers)):
+        check=False
+        for j in numbers[i+1:]:
+            if j > numbers[i]:
+                result.append(j)
+                check=True
+                break
+        if check == False:
+            result.append(-1)
+    return result
+            
