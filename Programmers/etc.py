@@ -1119,4 +1119,14 @@ def solution(numbers):
         if check == False:
             result.append(-1)
     return result
-            
+# 뒤에 있는 큰 수 찾기
+def solution(numbers):
+    result = [-1] * len(numbers)
+    stack = []
+
+    for i in range(len(numbers)):
+        while stack and numbers[i] > numbers[stack[-1]]:
+            idx = stack.pop()
+            result[idx] = numbers[i]
+        stack.append(i)
+    return result
