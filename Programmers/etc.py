@@ -1146,4 +1146,25 @@ def solution(x, y, n):
         if num*3<=y:
             que.append((num*3,count+1))
     return -1
+# 숫자 변환하기 : 중복을 없애기 위해 set을 활용!!
+from collections import *
+def solution(x, y, n):
+    que = deque()
+    que.append((x,0))
+    visited = set()
+    visited.add(x)
+    while que:
+        num, count = que.popleft()
+        if num==y:
+            return count
+        if num+n<=y and num+n not in visited:
+            que.append((num+n,count+1))
+            visited.add(num+n)
+        if num*2<=y and num*2 not in visited:
+            que.append((num*2,count+1))
+            visited.add(num*2)
+        if num*3<=y and num*3 not in visited:
+            que.append((num*3,count+1))
+            visited.add(num*3)
+    return -1
         
