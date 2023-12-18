@@ -1130,3 +1130,20 @@ def solution(numbers):
             result[idx] = numbers[i]
         stack.append(i)
     return result
+# 숫자 변환하기 : 시간 초과
+from collections import *
+def solution(x, y, n):
+    que = deque()
+    que.append((x,0))
+    while que:
+        num, count = que.popleft()
+        if num==y:
+            return count
+        if num+n<=y:
+            que.append((num+n,count+1))
+        if num*2<=y:
+            que.append((num*2,count+1))
+        if num*3<=y:
+            que.append((num*3,count+1))
+    return -1
+        
