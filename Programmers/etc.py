@@ -1167,4 +1167,41 @@ def solution(x, y, n):
             que.append((num*3,count+1))
             visited.add(num*3)
     return -1
-        
+
+# 시소 짝꿍
+def solution(weights):
+    answer = 0
+    cat = set()
+    for i in weights:
+        for j in range(1,5):
+            new = i*j
+            cat_new = cat
+            if new in cat:
+                answer+=1
+                cat.remove(new)
+            else:
+                cat.add(new)
+    return answer
+
+# 시소 짝꿍(sol)
+from collections import defaultdict
+
+def solution(weights):
+    answer = 0
+    length = len(weights)
+    weight_dict = defaultdict(int)
+    
+    for weight in weights:
+        weight_dict[weight] += 1
+    
+    for key, val in weight_dict.items():
+        if val > 1:
+            answer += val*(val-1)//2 #weights 중에서 1:1비율로 겹치는 친구들에 대한 answer 구하기
+        if key*2 in weight_dict :
+            answer += val*weight_dict[key*2] #key값 2배가 weight_Dict에 있으면 answer에 *후 더하기
+        if key*3%2 == 0 and key*3 //2 in weight_dict:
+            answer += val*weight_dict[key*3//2]
+        if key*4%3==0 and key*4//3 in weight_dict:
+            answer += val*weight_dict[key*4//3]
+    return answer
+            
